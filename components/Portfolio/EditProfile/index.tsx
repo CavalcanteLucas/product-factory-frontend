@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from "react";
-import {Category, EditProfileProps, ProfileType, Skill, SkillExpertise, Website} from "../interfaces";
+import {EditProfileProps, ProfileType, Website} from "../interfaces";
+import {Category, Skill, SkillExpertise} from "../../SkillsComponents/interfaces";
 import {Avatar, Button, Col, Input, message, Row, Select, Typography, Upload} from "antd";
 import {UploadFile} from "antd/es/upload/interface";
 import {useRouter} from "next/router";
-import ImgCrop from "antd-img-crop";
 import 'antd/es/modal/style';
 import 'antd/es/slider/style';
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import {UPDATE_PERSON, SAVE_AVATAR, DELETE_AVATAR} from "../../../graphql/mutations";
 import {getProp} from "../../../utilities/filters";
 import {apiDomain} from "../../../utilities/constants";
-import SkillsArea from "./SkillComponents/SkillArea";
-import ExpertiseArea from "./SkillComponents/ExpertiseArea";
-import {DeleteOutlined, PlusOutlined, UserOutlined, UploadOutlined} from "@ant-design/icons";
-import {GET_CATEGORIES_LIST} from "../../../graphql/queries";
-import {findExpertise} from "../helpers";
+import {PlusOutlined, UserOutlined, UploadOutlined} from "@ant-design/icons";
+import {GET_CATEGORIES_LIST, GET_EXPERTISES_LIST} from "../../../graphql/queries";
+import {findCategory} from "../helpers";
 import SkillsSelect from "../../CreatePersonModal/Skills/SkillsSelect"
 import ExpertiseTable from "../../CreatePersonModal/Skills/ExpertiseTable"
 import AvatarUploadModal from '../../CreatePersonModal/AvatarUploadModal'
@@ -34,10 +32,11 @@ const EditProfile = ({profile, setProfile}: EditProfileProps) => {
     const [uploadStatus, setUploadStatus] = useState<boolean>(false);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [allExpertises, setAllExpertises] = useState([]);
     const [skillExpertise, setSkillExpertise] = useState<SkillExpertise[]>([]);
-    const [expertiseList, setExpertiseList] = useState<string[]>([]);
 
     const {data: categories} = useQuery(GET_CATEGORIES_LIST);
+    const {data: expertises} = useQuery(GET_EXPERTISES_LIST);
     const [deleteAvatar] = useMutation(DELETE_AVATAR, {
         onCompleted(data) {
             const status = getProp(data, 'deleteAvatar.status', false);
@@ -66,6 +65,12 @@ const EditProfile = ({profile, setProfile}: EditProfileProps) => {
         }
     }, [categories]);
 
+    useEffect(() => {
+        if (expertises?.expertisesListing) {
+            setAllExpertises(JSON.parse(expertises.expertisesListing));
+        }
+    }, [expertises])
+
     const router = useRouter();
     let {personSlug} = router.query;
 
@@ -89,16 +94,26 @@ const EditProfile = ({profile, setProfile}: EditProfileProps) => {
             setSkills(profile.skills);
             const currentSkillExpertise: SkillExpertise[] = [];
             profile.skills.map(skill => {
+                var expertiseSelections = []
+                var skillCat = findCategory(allCategories, skill.category[1])
+                if(allExpertises) {
+                   for(var i=0; i<allExpertises.length; i++) {
+                        if(allExpertises[i]['category'] === skillCat.id) {
+                            var childExpertises = []
+                            allExpertises[i]['children'].map((child) => {childExpertises.push(child['name'])})
+                            expertiseSelections[ allExpertises[i]['name'] ] = childExpertises
+                        }
+                    }
+                }
+
                 currentSkillExpertise.push({
                     skill: skill.category,
-                    expertise: findExpertise(typeof skill.category === 'string' ?
-                        skill.category : skill.category[1], allCategories)
+                    expertise: expertiseSelections,
                 });
             });
             setSkillExpertise(currentSkillExpertise);
-            setExpertiseList(profile.skills.map(skill => skill.expertise ? skill.expertise : skill.category));
         }
-    }, [profile, allCategories]);
+    }, [profile, allCategories, allExpertises]);
     const [updateProfile] = useMutation(UPDATE_PERSON, {
         onCompleted(data) {
             const status = getProp(data, 'updatePerson.status', false);
@@ -264,6 +279,7 @@ const EditProfile = ({profile, setProfile}: EditProfileProps) => {
                                 skillExpertise={skillExpertise}
                                 setSkillExpertise={setSkillExpertise}
                                 allCategories={allCategories}
+                                allExpertises={allExpertises}
                                 skills={skills}
                             />
                         </Col>
@@ -283,7 +299,8 @@ const EditProfile = ({profile, setProfile}: EditProfileProps) => {
                         <ExpertiseTable
                             skills={skills}
                             setSkills={setSkills}
-                            skillExpertise={skillExpertise}/>
+                            skillExpertise={skillExpertise}
+                        />
                     </div>
 
                     <Row>

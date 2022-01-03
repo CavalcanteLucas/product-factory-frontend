@@ -3,10 +3,10 @@ import {Modal, message, Form, Typography} from "antd";
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import {CREATE_PERSON} from "../../graphql/mutations";
 import {getProp} from "../../utilities/filters";
-import {CreatePersonProps, Person, Skill} from "./interfaces";
+import {CreatePersonProps, Person} from "./interfaces";
 import {useRouter} from "next/router";
-import {GET_CATEGORIES_LIST} from "../../graphql/queries";
-import {Category, SkillExpertise} from "../SkillsComponents/interfaces";
+import {GET_CATEGORIES_LIST, GET_EXPERTISES_LIST} from "../../graphql/queries";
+import {Category, Skill, SkillExpertise} from "../SkillsComponents/interfaces";
 import FirstStep from "./Steps/FirstStep";
 import SecondStep from "./Steps/SecondStep";
 import StepWidget from "./Steps/StepSwitcher/StepSwitcher";
@@ -28,15 +28,23 @@ const CreatePersonModal = ({modal, closeModal}: CreatePersonProps) => {
 
     const [skills, setSkills] = useState<Skill[]>([]);
     const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [allExpertises, setAllExpertises] = useState([]);
     const [skillExpertise, setSkillExpertise] = useState<SkillExpertise[]>([]);
 
     const {data: categories} = useQuery(GET_CATEGORIES_LIST);
+    const {data: expertises} = useQuery(GET_EXPERTISES_LIST);
 
     useEffect(() => {
         if (categories?.taskCategoryListing) {
             setAllCategories(JSON.parse(categories.taskCategoryListing));
         }
     }, [categories]);
+
+    useEffect(() => {
+        if (expertises?.expertisesListing) {
+            setAllExpertises(JSON.parse(expertises.expertisesListing));
+        }
+    }, [expertises])
 
     const [createProfile] = useMutation(CREATE_PERSON, {
         onCompleted(data) {
@@ -87,6 +95,7 @@ const CreatePersonModal = ({modal, closeModal}: CreatePersonProps) => {
                     skillExpertise={skillExpertise}
                     setSkillExpertise={setSkillExpertise}
                     allCategories={allCategories}
+                    allExpertises={allExpertises}
                     skills={skills}
         />
     ]

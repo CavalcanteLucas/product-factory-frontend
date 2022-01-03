@@ -18,7 +18,7 @@ const TasksDesktop = ({tasks, openTaskDetail}: TasksComponentProps) => {
                                     <Avatar size={35} shape="circle" src={task.product.avatar}/>
                                 </Row>
                             </Col>
-                            <Col>
+                            <Col style={{maxWidth: '500px'}}>
                                 <Row>
                                     <Row align="top">
                                         <Typography.Text strong style={{

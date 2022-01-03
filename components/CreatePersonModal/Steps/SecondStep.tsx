@@ -9,6 +9,7 @@ const SecondStep = ({
                         previous,
                         submit,
                         allCategories,
+                        allExpertises,
                         setSkills,
                         skillExpertise,
                         setSkillExpertise,
@@ -32,9 +33,10 @@ const SecondStep = ({
             </Row>
             <Row justify={"center"} style={{marginBottom: 50}}>
                 <SkillsSelect setSkills={setSkills}
-                              allCategories={allCategories}
                               skillExpertise={skillExpertise}
                               setSkillExpertise={setSkillExpertise}
+                              allCategories={allCategories}
+                              allExpertises={allExpertises}
                               skills={skills}
                 />
             </Row>

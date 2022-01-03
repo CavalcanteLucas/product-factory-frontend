@@ -2,7 +2,7 @@ import React from "react";
 import {ExpertiseTableProps} from "../interfaces";
 import {Col, Row, TreeSelect, Typography} from "antd";
 import {TreeNode} from "antd/lib/tree-select";
-import {Skill} from "../../Portfolio/interfaces";
+import {Skill} from "../../SkillsComponents/interfaces";
 
 const ExpertiseTable = ({skills, setSkills, skillExpertise}: ExpertiseTableProps) => {
 
@@ -27,7 +27,6 @@ const ExpertiseTable = ({skills, setSkills, skillExpertise}: ExpertiseTableProps
                 bordered
                 showArrow>
                 {
-
                     Object.keys(skillExp.expertise).map((expertise) => (
                         <TreeNode
                             value={expertise}
@@ -64,7 +63,7 @@ const ExpertiseTable = ({skills, setSkills, skillExpertise}: ExpertiseTableProps
                     </Row>
                 </Col>
             </Row>
-            {skillExpertise.length > 0 && skillExpertise.map((skillExp, index) => (
+            {skillExpertise && skillExpertise.length > 0 && skillExpertise.map((skillExp, index) => (
                 <Row>
                     <Col>
                         <Row style={{borderBottom: '1px solid #FAFAFA', height: "100%", alignItems: "center"}}

@@ -15,7 +15,8 @@ const Contributions = ({tasks, changePage, pagesNumber, activePage, hasNext, has
         id: 0,
         title: "",
         date: "",
-        skills: [],
+        category: null,
+        expertise: [],
         reviewerPerson: {
             id: "",
             firstName: "",

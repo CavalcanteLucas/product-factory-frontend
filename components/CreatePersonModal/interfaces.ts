@@ -1,6 +1,5 @@
 import {UploadFile} from "antd/es/upload/interface";
-import {Category, SkillExpertise} from "../SkillsComponents/interfaces";
-import {Skill} from "./index";
+import {Category, Skill, Expertise, SkillExpertise} from "../SkillsComponents/interfaces";
 
 export interface CreatePersonProps {
     modal: boolean
@@ -39,6 +38,7 @@ export interface SecondStepProps {
     previous: Function
     setSkills: Function
     allCategories: Category[]
+    allExpertises: string[]
     skillExpertise: SkillExpertise[]
     setSkillExpertise: Function
     skills: Skill[]
@@ -60,6 +60,7 @@ export interface StepProps {
 export interface SkillsSelectProps {
     setSkills: Function
     allCategories: Category[]
+    allExpertises: string[]
     skillExpertise: SkillExpertise[]
     setSkillExpertise: Function
     skills: Skill[]

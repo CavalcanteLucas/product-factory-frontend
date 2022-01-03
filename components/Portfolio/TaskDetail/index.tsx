@@ -147,11 +147,11 @@ const TaskDetail = ({modal, setModal, task, personSlug}: TaskDetailProps) => {
                             fontSize: 12,
                             fontFamily: "Roboto",
                             color: "rgba(0, 0, 0, 0.45)",
-                        }}>Expertise</Typography.Text>
+                        }}>Category</Typography.Text>
                     </Row>
                 </Col>
                 <Col>
-                    {task.skills && task.skills.map(skill => (
+                    {task.category && 
                         <Row style={{
                             marginBottom: 3,
                             marginRight: 3,
@@ -160,7 +160,32 @@ const TaskDetail = ({modal, setModal, task, personSlug}: TaskDetailProps) => {
                             borderRadius: 2,
                             background: "#F5F5F5"
                         }}>
-                            {skill.category} {skill.expertise ? `(${skill.expertise})` : null}
+                            {task.category.name}
+                        </Row>
+                    }
+                </Col>
+            </Row>
+            <Row style={{marginTop: 13}}>
+                <Col span={3}>
+                    <Row>
+                        <Typography.Text style={{
+                            fontSize: 12,
+                            fontFamily: "Roboto",
+                            color: "rgba(0, 0, 0, 0.45)",
+                        }}>Expertise</Typography.Text>
+                    </Row>
+                </Col>
+                <Col>
+                    {task.expertise && task.expertise.map(expertise => (
+                        <Row style={{
+                            marginBottom: 3,
+                            marginRight: 3,
+                            fontSize: 12,
+                            padding: "5px 16px",
+                            borderRadius: 2,
+                            background: "#F5F5F5"
+                        }}>
+                            {expertise.name}
                         </Row>
                     ))}
                 </Col>

@@ -19,6 +19,7 @@ const {Content} = Layout;
 const EditPerson = (user: any) => {
     const router = useRouter();
     const {personSlug} = router.query;
+
     const [profile, setProfile] = useState<ProfileType>({
         id: '',
         firstName: '',

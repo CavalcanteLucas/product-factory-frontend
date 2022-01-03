@@ -15,13 +15,18 @@ export interface Category {
     children: Category[]
 }
 
+export interface Skill {
+    category: string[],
+    expertise: null | string[]
+}
+
 export interface Expertise {
     [key: string]: string[]
 }
 
 export interface SkillExpertise {
-    skill: string[],
-    expertise: Expertise
+    skill: string
+    expertise: string[]
 }
 
 export interface ExpertiseAreaInterface {

@@ -1061,9 +1061,13 @@ export const GET_PERSON_DONE_TASKS = gql `
       title
       date
       link
-      skills {
-        category
-        expertise
+      category {
+        id
+        name
+      }
+      expertise {
+        id
+        name
       }
       reviewerPerson {
         id

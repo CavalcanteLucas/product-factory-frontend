@@ -5,6 +5,8 @@ import {setLoginURL, setRegisterURL, userLogInAction} from "../../lib/actions";
 import {UserState} from "../../lib/reducers/user.reducer";
 // @ts-ignore
 import Logo from "../../public/assets/logo.svg";
+import DiscordLogo from "../../public/assets/discord-logo.png";
+import BetaTag from "../../public/assets/beta-tag.svg";
 import Link from "next/link";
 import {useMutation, useQuery, useLazyQuery} from "@apollo/react-hooks";
 import {GET_AM_LOGIN_URL, GET_AM_REGISTER_URL, GET_PERSON} from "../../graphql/queries";
@@ -196,6 +198,7 @@ const HeaderMenuContainer: React.FunctionComponent<Props> = ({user, userLogInAct
                     <Link href="/">
                         <a>
                             <img src={Logo} alt="logo"/>
+                            <img height={20} src={BetaTag} alt="beta" style={{paddingLeft: '5px'}}/>
                         </a>
                     </Link>
                 </Col>
@@ -212,7 +215,7 @@ const HeaderMenuContainer: React.FunctionComponent<Props> = ({user, userLogInAct
                  className="header-desktop">
                 <Col xl={20} lg={22}>
                     <Row className="container">
-                        <Col span={10}>
+                        <Col span={9}>
                             <Row justify="start" align="middle">
                                 <Col style={{marginRight: 20}}>
                                     <Link href="/">
@@ -240,17 +243,18 @@ const HeaderMenuContainer: React.FunctionComponent<Props> = ({user, userLogInAct
                             </Row>
                         </Col>
 
-                        <Col span={4}>
+                        <Col span={6}>
                             <Row justify="center">
-                                <Link href="/">
-                                    <a>
-                                        <img src={Logo} alt="logo"/>
-                                    </a>
-                                </Link>
+                                    <Link href="/">
+                                        <a>
+                                            <img src={Logo} alt="logo"/>
+                                            <img height={20} src={BetaTag} alt="beta" style={{paddingLeft: '5px'}}/>
+                                        </a>
+                                    </Link>
                             </Row>
                         </Col>
 
-                        <Col span={10}>
+                        <Col span={9}>
                             <Row align="middle" justify="end">
                                 <Col>
                                     {
@@ -272,6 +276,15 @@ const HeaderMenuContainer: React.FunctionComponent<Props> = ({user, userLogInAct
                             </Row>
                         </Col>
                     </Row>
+                </Col>
+            </Row>
+
+            <Row align="middle" justify="center" >
+                <Col xl={20} lg={22} style={{textAlign: 'center', paddingTop: '10px'}}>
+                    <span>Join us on </span>
+                    <a href="https://discord.gg/T3xevYvWey" target="_blank">
+                        <img height={25} src={DiscordLogo} alt="discord"/>
+                    </a>
                 </Col>
             </Row>
         </>
